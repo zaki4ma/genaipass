@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Read(//d/tmp/**)",
+      "Bash(npx create-next-app@14 genaipass-tmp --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(wmic logicaldisk:*)",
+      "Bash(mkdir -p /d/tmp-next)",
+      "Read(//d//**)",
+      "Bash(npx create-next-app@14 genaipass-init --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(npm cache:*)",
+      "Bash(npm config:*)",
+      "Read(//d/tmp-next/genaipass-init/**)",
+      "Bash(npm install:*)",
+      "Bash(cp:*)",
+      "Bash(node:*)",
+      "Bash(npm run:*)",
+      "Bash(npx drizzle-kit:*)",
+      "Bash(npx tsx:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
