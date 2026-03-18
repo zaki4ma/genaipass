@@ -1,6 +1,5 @@
 export const dynamic = "force-dynamic";
 
-import { auth } from "@/auth";
 import { getQuestionsByCategory } from "@/actions/questions";
 import { redirect } from "next/navigation";
 import { StudyClient } from "./StudyClient";
@@ -19,19 +18,10 @@ export default async function StudyCategoryPage({
 }: {
   params: { category: string };
 }) {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/");
-
   const categoryName = CATEGORY_MAP[params.category];
   if (!categoryName) redirect("/study");
 
   const questions = await getQuestionsByCategory(categoryName);
 
-  return (
-    <StudyClient
-      questions={questions}
-      userId={session.user.id}
-      backHref="/study"
-    />
-  );
+  return <StudyClient questions={questions} backHref="/study" />;
 }

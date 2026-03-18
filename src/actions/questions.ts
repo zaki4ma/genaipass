@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { questions, reviewList } from "@/db/schema";
+import { questions } from "@/db/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 
 export async function getQuestionsByCategory(category: string) {
@@ -13,26 +13,17 @@ export async function getQuestionsByCategory(category: string) {
   return results;
 }
 
-export async function getReviewQuestions(userId: string) {
-  const reviewItems = await db
-    .select({ questionId: reviewList.questionId })
-    .from(reviewList)
-    .where(eq(reviewList.userId, userId));
-
-  if (reviewItems.length === 0) return [];
-
-  const questionIds = reviewItems.map((r) => r.questionId);
+export async function getQuestionsByIds(ids: string[]) {
+  if (ids.length === 0) return [];
   const results = await db
     .select()
     .from(questions)
-    .where(inArray(questions.id, questionIds))
+    .where(inArray(questions.id, ids))
     .orderBy(sql`RANDOM()`);
-
   return results;
 }
 
 export async function getMockExamQuestions() {
-  // 6分野 × 10問 = 60問
   const categories = [
     "AIの基礎知識",
     "生成AIの仕組み",

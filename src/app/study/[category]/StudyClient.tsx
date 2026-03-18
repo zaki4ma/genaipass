@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { QuizCard } from "@/components/QuizCard";
 import { ProgressBar } from "@/components/ProgressBar";
-import { submitAnswer } from "@/actions/answers";
+import { addAnswerLog, addToReviewList, removeFromReviewList } from "@/lib/storage";
 
 interface Question {
   id: string;
@@ -17,11 +17,10 @@ interface Question {
 
 interface StudyClientProps {
   questions: Question[];
-  userId: string;
   backHref: string;
 }
 
-export function StudyClient({ questions, userId, backHref }: StudyClientProps) {
+export function StudyClient({ questions, backHref }: StudyClientProps) {
   const [current, setCurrent] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -30,14 +29,15 @@ export function StudyClient({ questions, userId, backHref }: StudyClientProps) {
 
   const q = questions[current];
 
-  async function handleAnswer(isCorrect: boolean) {
+  function handleAnswer(isCorrect: boolean) {
     setAnswered(true);
-    if (isCorrect) setScore((s) => s + 1);
-    try {
-      await submitAnswer(userId, q.id, isCorrect);
-    } catch (err) {
-      console.error("submitAnswer failed:", err);
+    if (isCorrect) {
+      setScore((s) => s + 1);
+      removeFromReviewList(q.id);
+    } else {
+      addToReviewList(q.id);
     }
+    addAnswerLog(q.id, isCorrect);
   }
 
   function handleNext() {

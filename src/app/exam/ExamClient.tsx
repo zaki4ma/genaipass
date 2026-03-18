@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { QuizCard } from "@/components/QuizCard";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ExamTimer } from "@/components/ExamTimer";
-import { submitAnswer } from "@/actions/answers";
+import { addAnswerLog, addToReviewList, removeFromReviewList } from "@/lib/storage";
 
 interface Question {
   id: string;
@@ -18,10 +18,9 @@ interface Question {
 
 interface ExamClientProps {
   questions: Question[];
-  userId: string;
 }
 
-export function ExamClient({ questions, userId }: ExamClientProps) {
+export function ExamClient({ questions }: ExamClientProps) {
   const [current, setCurrent] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [results, setResults] = useState<{ isCorrect: boolean; category: string }[]>([]);
@@ -31,10 +30,15 @@ export function ExamClient({ questions, userId }: ExamClientProps) {
 
   const q = questions[current];
 
-  async function handleAnswer(isCorrect: boolean) {
+  function handleAnswer(isCorrect: boolean) {
     setAnswered(true);
     setResults((r) => [...r, { isCorrect, category: q.category }]);
-    await submitAnswer(userId, q.id, isCorrect);
+    addAnswerLog(q.id, isCorrect);
+    if (isCorrect) {
+      removeFromReviewList(q.id);
+    } else {
+      addToReviewList(q.id);
+    }
   }
 
   function handleNext() {
@@ -57,7 +61,6 @@ export function ExamClient({ questions, userId }: ExamClientProps) {
     const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
     const passed = accuracy >= 80 && totalAnswered >= questions.length;
 
-    // Category breakdown
     const categories = Array.from(new Set(questions.map((q) => q.category)));
     const categoryStats = categories.map((cat) => {
       const catResults = results.filter((r) => r.category === cat);
@@ -91,7 +94,6 @@ export function ExamClient({ questions, userId }: ExamClientProps) {
             <p className="text-xs text-gray-600">合格ライン: 80%以上</p>
           </div>
 
-          {/* Category breakdown */}
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-3">
             <h2 className="text-sm font-semibold text-gray-400">分野別正答率</h2>
             {categoryStats.map(({ cat, correct, total }) => {

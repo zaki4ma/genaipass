@@ -1,38 +1,38 @@
-export const dynamic = "force-dynamic";
+"use client";
 
-import { auth, signOut } from "@/auth";
-import { getDashboardStats } from "@/actions/answers";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { getDashboardStats } from "@/lib/storage";
 
-export default async function DashboardPage() {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/");
+interface Stats {
+  todayCount: number;
+  totalCount: number;
+  accuracy: number;
+  reviewCount: number;
+}
 
-  const stats = await getDashboardStats(session.user.id);
+export default function DashboardPage() {
+  const [stats, setStats] = useState<Stats>({
+    todayCount: 0,
+    totalCount: 0,
+    accuracy: 0,
+    reviewCount: 0,
+  });
+
+  useEffect(() => {
+    setStats(getDashboardStats());
+  }, []);
 
   return (
     <main className="min-h-screen bg-gray-950 px-4 py-8">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-white">ダッシュボード</h1>
-            <p className="text-sm text-gray-500">{session.user.name}</p>
-          </div>
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/" });
-            }}
-          >
-            <button className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
-              ログアウト
-            </button>
-          </form>
+          <h1 className="text-xl font-bold text-white">ダッシュボード</h1>
+          <Link href="/" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+            トップへ
+          </Link>
         </div>
 
-        {/* Today's stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-indigo-400">{stats.todayCount}</div>
@@ -52,7 +52,6 @@ export default async function DashboardPage() {
           累計回答数: <span className="text-gray-300">{stats.totalCount}問</span>
         </div>
 
-        {/* Mode cards */}
         <div className="space-y-3">
           <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
             学習モードを選ぶ
@@ -68,9 +67,7 @@ export default async function DashboardPage() {
                 <h3 className="font-semibold text-white group-hover:text-indigo-400 transition-colors">
                   分野別学習
                 </h3>
-                <p className="text-sm text-gray-500 mt-0.5">
-                  6つの分野から選んで学習
-                </p>
+                <p className="text-sm text-gray-500 mt-0.5">6つの分野から選んで学習</p>
               </div>
               <div className="text-gray-600">→</div>
             </div>
@@ -110,9 +107,7 @@ export default async function DashboardPage() {
                 <h3 className="font-semibold text-white group-hover:text-purple-400 transition-colors">
                   模擬試験
                 </h3>
-                <p className="text-sm text-gray-500 mt-0.5">
-                  60問・60分 / 合格ライン80%
-                </p>
+                <p className="text-sm text-gray-500 mt-0.5">60問・60分 / 合格ライン80%</p>
               </div>
               <div className="text-gray-600">→</div>
             </div>
