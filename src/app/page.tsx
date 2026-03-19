@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { blogPosts } from "@/lib/blog";
 
 export default function LandingPage() {
   return (
@@ -41,6 +42,34 @@ export default function LandingPage() {
         >
           はじめる →
         </Link>
+
+        <div className="space-y-4 text-left pt-4">
+          <h2 className="text-xl font-bold text-white text-center">
+            試験対策ブログ
+          </h2>
+          <ul className="space-y-3">
+            {blogPosts.slice(0, 3).map((post) => (
+              <li key={post.slug}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="block bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 hover:border-indigo-700 transition-colors"
+                >
+                  <span className="text-sm text-white hover:text-indigo-400 transition-colors">
+                    {post.title}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="text-center">
+            <Link
+              href="/blog"
+              className="text-indigo-400 hover:text-indigo-300 text-sm"
+            >
+              記事をもっと見る →
+            </Link>
+          </div>
+        </div>
       </div>
     </main>
   );
