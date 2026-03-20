@@ -19,7 +19,7 @@ export default function StudyPage() {
           </Link>
         </div>
         <h1 className="text-xl font-bold text-white">分野を選ぶ</h1>
-        <p className="text-sm text-gray-500">各分野20問をランダム順で出題します</p>
+        <p className="text-sm text-gray-500">各分野50問をランダム順で出題します</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {CATEGORIES.map((cat) => (
@@ -33,7 +33,7 @@ export default function StudyPage() {
                 <p className="font-medium text-white group-hover:text-gray-100 text-sm leading-tight">
                   {cat.label}
                 </p>
-                <p className="text-xs text-gray-600 mt-0.5">20問</p>
+                <p className="text-xs text-gray-600 mt-0.5">50問</p>
               </div>
             </Link>
           ))}

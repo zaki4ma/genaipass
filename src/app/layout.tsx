@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | 生成AIパスポート対策クイズ",
   },
   description:
-    "生成AIパスポート試験（GUGA主催）の合格を目指す無料の問題演習Webアプリ。6分野120問・復習モード・60分模擬試験で本番に備えよう。",
+    "生成AIパスポート試験（GUGA主催）の合格を目指す無料の問題演習Webアプリ。6分野300問・復習モード・60分模擬試験で本番に備えよう。",
   keywords: [
     "生成AIパスポート",
     "生成AI",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: "生成AIパスポート対策クイズ",
     title: "生成AIパスポート対策クイズ",
     description:
-      "生成AIパスポート試験の合格を目指す無料の問題演習Webアプリ。6分野120問・復習モード・60分模擬試験で本番に備えよう。",
+      "生成AIパスポート試験の合格を目指す無料の問題演習Webアプリ。6分野300問・復習モード・60分模擬試験で本番に備えよう。",
     images: [
       {
         url: "/og-image.png",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "生成AIパスポート対策クイズ",
     description:
-      "生成AIパスポート試験の合格を目指す無料の問題演習Webアプリ。6分野120問・復習モード・60分模擬試験で本番に備えよう。",
+      "生成AIパスポート試験の合格を目指す無料の問題演習Webアプリ。6分野300問・復習モード・60分模擬試験で本番に備えよう。",
     images: ["/og-image.png"],
   },
   alternates: {

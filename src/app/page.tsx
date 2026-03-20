@@ -15,7 +15,7 @@ export default function LandingPage() {
             <span className="text-indigo-400">合格対策クイズ</span>
           </h1>
           <p className="text-gray-400 text-lg">
-            6分野・120問で本番試験に挑む実力をつける
+            6分野・300問で本番試験に挑む実力をつける
           </p>
         </div>
 
