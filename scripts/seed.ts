@@ -10,6 +10,9 @@ async function seed() {
   const sql = neon(process.env.DATABASE_URL!);
   const db = drizzle(sql);
 
+  console.log("Clearing existing questions...");
+  await db.delete(questions);
+
   console.log(`Seeding ${questionsData.length} questions...`);
 
   for (const q of questionsData) {
